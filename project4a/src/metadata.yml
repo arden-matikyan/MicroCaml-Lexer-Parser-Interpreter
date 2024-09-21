@@ -1,0 +1,12 @@
+---
+:id: 123720123
+:submitters:
+- :name: Arden Matikyan
+  :email: amatikya@umd.edu
+:created_at: !ruby/object:ActiveSupport::TimeWithZone
+  utc: 2022-04-25 23:02:51.922099000 Z
+  zone: !ruby/object:ActiveSupport::TimeZone
+    name: America/Los_Angeles
+  time: 2022-04-25 16:02:51.922099000 Z
+:status: processed
+:score: 100.0
