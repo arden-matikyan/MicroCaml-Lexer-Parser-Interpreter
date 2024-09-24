@@ -1,49 +1,3 @@
-# Project 4a: MicroCaml Lexer and Parser
-Due: April 25, 2022, 11:59PM (Late: April 26th, 2022, 11:59PM)
-
-Points: 48 public, 52 semipublic
-
-## Introduction
-
-Over the course of Projects 4a and 4b, you will implement MicroCaml — a *dynamically-typed* version of OCaml with a subset of its features. Because MicroCaml is dynamically typed, it is not type checked at compile time; like Ruby, type checking will take place when the program runs. As part of your implementation of MicroCaml, you will also implement parts of `mutop` (μtop or Microtop), a version of `utop` for MicroCaml.
-
-In Project 4a, you will implement a lexer and parser for MicroCaml. Your lexer function will convert an input string of MicroCaml into a list of tokens, and your parser function will consume these tokens to produce an abstract symbol tree (AST), either for a MicroCaml expression, or for a `mutop` directive. In Project 4b, you will implement an interpreter to actually execute the produced AST.
-
-Here is an example call to the lexer and parser on a MicroCaml `mutop` directive (as a string):
-
-```ocaml
-parse_mutop (tokenize "def b = let x = true in x;;")
-```
-
-This will return the AST as the following OCaml value (which we will explain in due course):
-
-```ocaml
- Def ("b", Let ("x", false, Value (Bool true), ID "x"))
-```
-
-### Ground Rules
-
-In your code, you may use any OCaml modules and features we have taught in this class **except imperative OCaml** features like references, mutable records, and arrays. This means that you'll have to adjust the approach of the `match_tok` etc. functions given in lecture; these functions will take and return a token list, rather than modify a global list in place; we provide helper functions in the project to do this. Also, we have changed the definition of `lookahead` from the one given in lecture; the version presented here returns an `option` type, which is critical for your parser to work properly.
-
-### Testing & Submitting
-
-You can submit through `gradescope-submit` from the project directory and the project will be automatically submitted.
-
-You can also manually submit to [Gradescope](https://www.gradescope.com/courses/358171/assignments/1959273/).  You may only submit the **lexer.ml** and **parser.ml** files.  To test locally, run `dune runtest -f`.
-
-All tests will be run on direct calls to your code, comparing your return values to the expected return values. Any other output (e.g., for your own debugging) will be ignored. You are free and encouraged to have additional output. The only requirement for error handling is that input that cannot be lexed/parsed according to the provided rules should raise an `InvalidInputException`. We recommend using relevant error messages when raising these exceptions, to make debugging easier. We are not requiring intelligent messages that pinpoint an error to help a programmer debug, but as you do this project you might find you see where you could add those.
-
-You can run your lexer or parser directly on a MicroCaml program by running `dune exec bin/interface.bc lex [filename]` or `dune exec bin/interface.bc parse [filename]` where the `[filename]` argument is required.
-
-To test from the toplevel, run `dune utop src`. The necessary functions and types will automatically be imported for you.
-
-You can write your own tests which only test the parser by feeding it a custom token list. For example, to see how the expression `let x = true in x` would be parsed, you can construct the token list manually (e.g. in `utop`):
-
-```ocaml
-parse_expr [Tok_Let; Tok_ID "x"; Tok_Equal; Tok_Bool true; Tok_In; Tok_ID "x"];;
-```
-
-This way, you can work on the parser even if your lexer is not complete yet.
 
 ## Part 1: The Lexer (aka Scanner or Tokenizer)
 
@@ -435,9 +389,3 @@ To help you implement both parsers, we have provided some helper functions in th
 - **Type:** `token list -> int -> token option`
 - **Description:** An extension of `lookahead` that returns token at the nth index in the list of tokens as an option, returning `None` if the token list is empty at the given index or the index is negative. For example, `lookahead_many toks 0` is equivalent to `lookahead toks`.
 
-## Academic Integrity
-
-Please **carefully read** the academic honesty section of the course syllabus. **Any evidence** of impermissible cooperation on projects, use of disallowed materials or resources, or unauthorized use of computer accounts, **will be** submitted to the Student Honor Council, which could result in an XF for the course, or suspension or expulsion from the University. Be sure you understand what you are and what you are not permitted to do in regards to academic integrity when it comes to project assignments. These policies apply to all students, and the Student Honor Council does not consider lack of knowledge of the policies to be a defense for violating them. Full information is found in the course syllabus, which you should review before starting.
-
-[str doc]: https://caml.inria.fr/pub/docs/manual-ocaml/libref/Str.html
-[lecture]: http://www.cs.umd.edu/class/spring2021/cmsc330/lectures/20-parsing.pdf
