@@ -1,46 +1,4 @@
 # Project 4B: MicroCaml Interpreter
-Due: April 25, 2022, 11:59PM (Late: April 26th, 2022, 11:59PM)
-
-Points: 48 public, 52 semipublic
-
-## Introduction
-
-This is part (B) of project 4, in which you implement an interpreter for MicroCaml.
-
-In particular, you will implement two functions, `eval_expr` and `eval_mutop`. Each of these takes an `environment` (defined in [microCamlTypes.ml](./src/microCamlTypes.ml)) as a parameter, which acts as a map from variables to values. The `eval_expr` function evaluates an expression in the given environment, returning a `value`, while `eval_mutop` takes a `mutop` -- a top-level directive -- and returns a possibly updated environment and any additional result.
-
-You will need to use Imperative OCaml -- notably references -- to implement this project. This use is small, but important. More details below.
-
-### Ground Rules and Extra Info
-
-The interpreter must be implemented in `eval.ml` in accordance with the signatures for `eval_expr` and `eval_mutop` found in [eval.mli](./src/eval.mli). `eval.ml` is the only file you will write code in. 
-
-In your code, you may use any standard library functions, but the ones that will be useful to you will be found in the [`Stdlib` module][stdlib doc]. If you come asking for help using something we have not taught we will direct you to use methods taught in this class.
-
-### Compilation, Tests, and Running
-
-You can submit through `gradescope-submit` from the project directory and the project will be automatically submitted. You can also manually submit to [Gradescope](https://www.gradescope.com/courses/358171/assignments/1959298/). *You may only submit the `eval.ml` file.*
-
-You do not need a working parser and lexer to implement this project --- all testing can be done on abstract syntax trees directly.
-
-To test locally, run `dune runtest -f`. To test from the toplevel, run `dune utop src`. The necessary functions and types will automatically be imported for you. For example, from `utop`, you can write:
-
-```ocaml
-eval_expr [] (Let ("x", false, Value (Bool true), ID "x"));;
-- : value = Bool true
-```
-
-### Running Mutop
-
-If you do have a working parser and lexer, you can run them and your interpreter together in *mutop* (Micro-utop), a version of `utop` for MicroCaml. Run the command `dune exec bin/mutop.exe` in your terminal or use the shell script `bash mutop.sh` to start the mutop toplevel. The toplevel uses your implementations for `parse_mutop` and `eval_mutop` to execute MicroCaml expressions. Here is an example of its use:
-
-![Mutop Example](assets/ex.gif)
-
-**Note:** If you are having issues running *mutop*, run the command `dune build` before starting the mutop toplevel.
-
-## Operational Semantics
-
-We are going to describe how to implement your interpreter using examples, below. A more succinct description is this [operational semantics](./microcaml-opsem.pdf). Even if you don't use it much to do the project, we expect you to understand it -- we may take questions from it for the exam.
 
 ## Part 1: Evaluating Expressions
 ### `eval_expr : environment -> expr -> value` 
